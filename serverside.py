@@ -1,32 +1,41 @@
 import json
 import socket
 import time
+import datetime
+ 
 
-ip = "127.0.0.1"
-port = 5555
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-log = open("serversidelogs","a")
-print("Starting connection")
-log.write("Starting connection")
-s.bind((ip,port))
-log.close()
-    
+
+def log(x):
+    logging = open("serversidelogs","a")
+    print(x)
+    logging.write(x+"\n")
+    logging.close()
+
 def getmessage():
-    log = open("serversidelogs","a")
-    print("Listening on %s:%s"%(ip,str(port)))
-    log.write("Listening on %s:%s"%(ip,str(port)))
-    s.listen()
     conn, addr = s.accept()
+    log("Connection successfull to %s"%(str(addr)))
     with conn:
-        print("Connection establised with %s"%(str(addr)))
-        log.write("Listening on %s:%s"%(ip,str(port)))
-        dataset = open("dataset","a")
         data = conn.recv(1024)
-        dataset.write(str(data))
-        conn.send(b"Data recieved")
-    log.close
+        str_dataset(data)
+        conn.send(bytes("Data received","utf-8"))
+        conn.close()
+
+def str_dataset(x):
+    dataset = open("dataset","a")
+    data = json.loads(x.decode("utf-8"))
+    currentDT = str(datetime.datetime.now())
+    feeddata = "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"%(currentDT,data['sensor1'],data['sensor2'],data['sensor3'],data['sensor4'],data['sensor5'],data['sensor6'],data['sensor7'],data['sensor8'],data['sensor9'])
+    dataset.write(feeddata)
+    dataset.close()
 
 
+ip = socket.gethostname()
+port = 1234
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+log("Starting connection")
+s.bind((ip,port))
+log("Listening on %s:%s"%(ip,str(port)))
+s.listen()
 
 for x in range(10):
     getmessage()
