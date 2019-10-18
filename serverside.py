@@ -1,37 +1,32 @@
-#import json
+import json
 import socket
+import time
 
-f = open("dataset", "a")
-soc = socket.socket()
-
-
-def connect():
-    log = open("log", "a")
-    #Setting port and IP address
-    IP = '127.0.0.1'
-    port = 38450
-    print("Connection to IP address: %s and Port Number: %s" % (IP, port))
-    log.write(
-        "Connection to IP address: %s and Port Number: %s \n" % (IP, port))
-    #Creating a socket object and binding IP and port
-    soc.bind((IP, port))
-    log.close()
-
-
-def recv_msg():
-    log = open("log", "a")
-    #Setting the serverside to listen to the assigned ports and IP
-    soc.listen()
-    # Establish connection with client.
-    c, addr = soc.accept()
-    print("Got connection from %s\n" % (str(addr)))
-    log.write("Got connection from %s\n" % (str(addr)))
-
-    msg = soc.recv(1024)
-    print(str(msg))
-    log.close()
-    f.close()
+ip = "127.0.0.1"
+port = 5555
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+log = open("serversidelogs","a")
+print("Starting connection")
+log.write("Starting connection")
+s.bind((ip,port))
+log.close()
+    
+def getmessage():
+    log = open("serversidelogs","a")
+    print("Listening on %s:%s"%(ip,str(port)))
+    log.write("Listening on %s:%s"%(ip,str(port)))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+        print("Connection establised with %s"%(str(addr)))
+        log.write("Listening on %s:%s"%(ip,str(port)))
+        dataset = open("dataset","a")
+        data = conn.recv(1024)
+        dataset.write(str(data))
+        conn.send(b"Data recieved")
+    log.close
 
 
-connect()
-recv_msg()
+
+for x in range(10):
+    getmessage()
