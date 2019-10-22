@@ -37,5 +37,5 @@ s.bind((ip,port))
 log("Listening on %s:%s"%(ip,str(port)))
 s.listen()
 
-for x in range(10):
+while(True):
     getmessage()

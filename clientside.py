@@ -8,16 +8,17 @@ def log(x):
     logging.write(x+"\n")
     logging.close()
 
+
 def sensordata():
-  Temp,sens1 = 1 #Change this line  of code to fit the humidity sensor
-  Temp,sens2 = 2 #Change this line  of code to fit the humidity sensor
-  Temp,sens3 = 3 #Change this line  of code to fit the humidity sensor
-  Temp,sens4 = 4 #Change this line  of code to fit the humidity sensor
-  Temp,sens5 = 5 #Change this line  of code to fit the humidity sensor
-  Temp,sens6 = 6 #Change this line  of code to fit the humidity sensor
-  Temp,sens7 = 7 #Change this line  of code to fit the humidity sensor
-  Temp,sens8 = 8 #Change this line  of code to fit the humidity sensor
-  Temp,sens9 = 9 #Change this line  of code to fit the humidity sensor
+  sens1 = 1 #Change this line  of code to fit the humidity sensor
+  sens2 = 2 #Change this line  of code to fit the humidity sensor
+  sens3 = 3 #Change this line  of code to fit the humidity sensor
+  sens4 = 4 #Change this line  of code to fit the humidity sensor
+  sens5 = 5 #Change this line  of code to fit the humidity sensor
+  sens6 = 6 #Change this line  of code to fit the humidity sensor
+  sens7 = 7 #Change this line  of code to fit the humidity sensor
+  sens8 = 8 #Change this line  of code to fit the humidity sensor
+  sens9 = 9 #Change this line  of code to fit the humidity sensor
   rawsensorinfo = {"sensor1":"%s"%(sens1),"sensor2":"%s"%(sens2),"sensor3":"%s"%(sens3),"sensor4":"%s"%(sens4),"sensor5":"%s"%(sens5),"sensor6":"%s"%(sens6),"sensor7":"%s"%(sens7),"sensor8":"%s"%(sens8),"sensor9":"%s"%(sens9)}
   log = open("jsondataset","a")
   log.write(str(rawsensorinfo))
@@ -38,7 +39,7 @@ def _connect():
 
 
 while(True):
-  time.sleep(60*20)
+  time.sleep(2)
   _connect()
   
   
